@@ -1,4 +1,4 @@
-# **TypeScript**
+# TypeScript
 
 ## 1. **Что такое TypeScript?**
 
