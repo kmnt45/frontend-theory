@@ -2,6 +2,8 @@
 
 [Веб-платформа](./questions/web-tech.md)
 
+[Git](./questions/git.md)
+
 [CSS и верстка](./questions/css-layout.md)
 
 [JavaScript](./questions/js.md)
