@@ -934,9 +934,7 @@ API в компоненте и обновления состояния.
 
 ## 31. Разница между createElement() и cloneElement()?
 
-`createElement()` и `cloneElement()` — это методы из библиотеки React, но они выполняют разные функции:
-
-1. `createElement()`:
+- `createElement()`:
     - Используется для создания нового элемента React.
     - Формат вызова: `React.createElement(type, props, ...children)`.
     - `type` — это тип элемента (например, строка для HTML-элемента или класс/функция для пользовательского компонента).
@@ -949,7 +947,7 @@ API в компоненте и обновления состояния.
 
    Этот код создаст элемент `<div className="my-class">Hello, world!</div>`.
 
-2. `cloneElement()`:
+- `cloneElement()`:
     - Используется для создания копии существующего элемента React с возможностью изменения его свойств.
     - Формат вызова: `React.cloneElement(element, [props], [...children])`.
     - `element` — это React-элемент, который вы хотите клонировать.
