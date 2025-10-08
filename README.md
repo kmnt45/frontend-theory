@@ -8,8 +8,8 @@
 
 [Redux](./questions/redux.md)
 
+[CSS и верстка](./questions/css-layout.md)
+
 [Веб-платформа](./questions/web-tech.md)
 
 [Git](./questions/git.md)
-
-[CSS и верстка](./questions/css-layout.md)
