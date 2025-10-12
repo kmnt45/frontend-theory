@@ -714,6 +714,11 @@ function UncontrolledInput() {
 
 ⚠️ Важно: У этих методов нет аналога в функциональных компонентах, используются только классовые Error Boundaries.
 
+Количество предохранителей:
+
+Строгого ограничения на количество ErrorBoundary нет.
+Можно использовать их сколько угодно — хоть один на всё приложение, хоть по одному на каждый компонент.
+
 ```javascript
 class ErrorBoundary extends React.Component {
   constructor(props) {
