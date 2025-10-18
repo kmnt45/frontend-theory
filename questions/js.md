@@ -1354,86 +1354,91 @@ fetchData((result1) => {
 
 ## 72. Методы промисов?
 
-- `Promise.all()`: Выполняется, когда все промисы успешно завершены. Если хотя бы один из промисов отклонен, возвращается ошибка с этим промисом.
-```js
-const promise1 = Promise.resolve(3);
-const promise2 = Promise.resolve(42);
-const promise3 = Promise.resolve('hello');
+- `Promise.all()`
 
-Promise.all([promise1, promise2, promise3])
-  .then(values => {
-    console.log(values); // [3, 42, 'hello']
-  })
-  .catch(error => {
-    console.error(error);
-  });
-```
+    Выполняется, когда все промисы успешно завершены.
+    
+    Если хотя бы один промис отклонён, возвращается ошибка этого промиса.
 
-- `Promise.any()`: Выполняется, когда **хотя бы один** из промисов успешно завершен. Если все промисы отклонены, возвращается ошибка.
-```js
-const promise1 = Promise.reject(new Error('Error 1'));
-const promise2 = Promise.resolve(42);
-const promise3 = Promise.reject(new Error('Error 2'));
+    ```js
+    const promise1 = Promise.resolve(3);
+    const promise2 = Promise.resolve(42);
+    const promise3 = Promise.resolve('hello');
+    
+    Promise.all([promise1, promise2, promise3])
+    .then(values => console.log(values)) // [3, 42, 'hello']
+    .catch(error => console.error(error));
+    ```
 
-Promise.any([promise1, promise2, promise3])
-  .then(value => {
-    console.log(value); // 42
-  })
-  .catch(error => {
-    console.error(error);/*application error*/
-  });
-```
+- `Promise.any()`
 
-- `Promise.race()`: Выполняется, когда **первый** из промисов завершен (неважно, был ли он выполнен или отклонен).
-```js
-const promise1 = new Promise((resolve) => setTimeout(resolve, 100, 'First'));
-const promise2 = new Promise((resolve) => setTimeout(resolve, 200, 'Second'));
+    Выполняется, когда хотя бы один из промисов успешно завершён.
+    
+    Если все промисы отклонены, возвращается ошибка типа AggregateError.
+    
+    ```js
+    const promise1 = Promise.reject(new Error('Error 1'));
+    const promise2 = Promise.resolve(42);
+    const promise3 = Promise.reject(new Error('Error 2'));
+    
+    Promise.any([promise1, promise2, promise3])
+        .then(value => console.log(value)) // 42
+        .catch(error => console.error(error));
+    ```
 
-Promise.race([promise1, promise2])
-  .then(value => {
-    console.log(value); // 'First' (первый завершившийся промис)
-  })
-  .catch(error => {
-    console.error(error);
-  });
-```
+- `Promise.race()`
 
-- `Promise.allSettled()`: Выполняется, когда **все** промисы завершены, независимо от того, успешно или с ошибкой. Результатом будет массив объектов, где каждый объект содержит состояние (`fulfilled` или `rejected`) и значение или причину отклонения для каждого промиса.
-```js
-const promise1 = Promise.resolve(3);
-const promise2 = Promise.reject(new Error('Error occurred'));
-const promise3 = Promise.resolve('hello');
+    Возвращает результат первого завершившегося промиса,
+    независимо от того, успешно он выполнен или отклонён.
 
-Promise.allSettled([promise1, promise2, promise3])
-  .then(results => {
-    console.log(results);
+    ```js
+    const promise1 = new Promise(resolve => setTimeout(resolve, 100, 'First'));
+    const promise2 = new Promise(resolve => setTimeout(resolve, 200, 'Second'));
+    
+    Promise.race([promise1, promise2])
+        .then(value => console.log(value)) // 'First'
+        .catch(error => console.error(error));
+    ```
+
+- `Promise.allSettled()`
+
+    Выполняется, когда все промисы завершены, независимо от результата.
+    
+    Возвращает массив объектов с состоянием каждого промиса (fulfilled или rejected).
+    
+    ```js
+    const promise1 = Promise.resolve(3);
+    const promise2 = Promise.reject(new Error('Error occurred'));
+    const promise3 = Promise.resolve('hello');
+    
+    Promise.allSettled([promise1, promise2, promise3])
+        .then(results => console.log(results));
     // [
     //   { status: 'fulfilled', value: 3 },
     //   { status: 'rejected', reason: Error('Error occurred') },
     //   { status: 'fulfilled', value: 'hello' }
     // ]
-  });
-```
+    ```
 
-Иногда нужно обернуть уже известный результат вычисления в промис. Для этого используйте метод `Promise.resolve():`
+- `Promise.resolve()`
+
+    Создаёт промис, который сразу успешно завершён с указанным значением.
+    
+    ```js
+    const happyDog = Promise.resolve('🐶');
+    
+    happyDog.then(dog => console.log(dog)); // 🐶
+    ```
+
+- `Promise.reject()`
+
+Создаёт промис, который сразу отклонён с указанной причиной.
+
 ```js
-const happyDog = Promise.resolve('🐶')
+const sadDog = Promise.reject('🐶');
 
-happyDog.then(function (dog) {
-  console.log(dog) // 🐶
-})
+sadDog.catch(dog => console.log(dog)); // 🐶
 ```
-
-Метод `Promise.reject()` возвращает промис, который отклонен с указанной причиной. Это полезно для обработки ошибок. Обратите внимание, что результатом выполнения sadDog.catch() будет промис в статусе fulfilled:
-```js
-const sadDog = Promise.reject('🐶')
-
-sadDog.catch(function (dog) {
-  console.log(dog) // 🐶
-})
-```
-
-`applicated error` - я не помню какой методы возвращает 
 
 ## 73. Что такое fetch()?
 
