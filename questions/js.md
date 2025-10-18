@@ -835,10 +835,10 @@ console.log(commonError.name)
 1. `SyntaxError`
     Чаще всего встречаются опечатки — неправильные названия методов, лишние или отсутствующие точки с запятой или скобочки и так далее. Такой тип ошибок называется «синтаксическим», SyntaxError:
     ```js
-    console.log(;)
+    // console.log(;)
     // SyntaxError: Unexpected token ';'
     
-    console.log(()
+    // console.log(()
     // SyntaxError: missing ) after argument list
     ```
 
