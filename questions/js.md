@@ -1443,9 +1443,7 @@ sadDog.catch(function (dog) {
 
 ## 74. Что такое JSON в JavaScript? Отличие от XML?
 
-`JSON (JavaScript Object Notation)` - это формат для обмена данными, основанный на JavaScript-объектах. Он
-используется для передачи данных между сервером и клиентом. Его можно парсить и сериализовать с
-помощью `JSON.parse()` и `JSON.stringify()`.
+`JSON (JavaScript Object Notation)` - это формат для обмена данными между клиентом и сервером, основанный на JavaScript-объектах. Его можно парсить и сериализовать с помощью `JSON.parse()` и `JSON.stringify()`.
 
 Различия JSON и XML:
 
