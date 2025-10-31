@@ -464,7 +464,7 @@ HTTP/2 быстрее, потому что позволяет отправлят
 
 ## 11. Как поддерживать постоянное соединение?
 
-1. **WebSockets:**
+1. WebSockets:
 
    - WebSockets позволяют установить двустороннее постоянное соединение между клиентом и сервером. Это полезно для
      приложений, требующих реального времени, таких как чаты или игры.
@@ -473,120 +473,114 @@ HTTP/2 быстрее, потому что позволяет отправлят
      - Сервер принимает запрос и устанавливает постоянное соединение.
      - После установки соединения обе стороны могут отправлять данные в любое время.
 
-**Пример с использованием WebSocket в React:**
+    ```js
+    import {useEffect, useState} from "react";
+    
+    const WebSocketExample = () => {
+        const [messages, setMessages] = useState([]);
+        const [socket, setSocket] = useState(null);
+    
+        useEffect(() => {
+            const ws = new WebSocket("ws://example.com/socket");
+            setSocket(ws);
+    
+            ws.onmessage = (event) => {
+                setMessages((prevMessages) => [...prevMessages, event.data]);
+            };
+    
+            return () => {
+                ws.close();
+            };
+        }, []);
+    
+        return (
+            <div>
+                <h2>Messages</h2>
+                {messages.map((msg, index) => (
+                    <p key={index}>{msg}</p>
+                ))}
+            </div>
+        );
+    };
+    
+    export default WebSocketExample;
+    ```
 
-```js
-import {useEffect, useState} from "react";
-
-const WebSocketExample = () => {
-    const [messages, setMessages] = useState([]);
-    const [socket, setSocket] = useState(null);
-
-    useEffect(() => {
-        const ws = new WebSocket("ws://example.com/socket");
-        setSocket(ws);
-
-        ws.onmessage = (event) => {
-            setMessages((prevMessages) => [...prevMessages, event.data]);
-        };
-
-        return () => {
-            ws.close();
-        };
-    }, []);
-
-    return (
-        <div>
-            <h2>Messages</h2>
-            {messages.map((msg, index) => (
-                <p key={index}>{msg}</p>
-            ))}
-        </div>
-    );
-};
-
-export default WebSocketExample;
-```
-
-2. **Server-Sent Events (SSE):**
+2. Server-Sent Events (SSE):
 
    - SSE — это односторонний канал, где сервер может отправлять обновления клиенту через HTTP-соединение.
    - SSE хорошо подходит для приложений, где сервер регулярно отправляет данные (например, обновления ленты новостей).
 
-**Пример с использованием SSE в React:**
+    ```js
+    import {useEffect, useState} from "react";
+    
+    const SSEExample = () => {
+        const [data, setData] = useState([]);
+    
+        useEffect(() => {
+            const eventSource = new EventSource("http://example.com/sse");
+    
+            eventSource.onmessage = (event) => {
+                setData((prevData) => [...prevData, event.data]);
+            };
+    
+            return () => {
+                eventSource.close();
+            };
+        }, []);
+    
+        return (
+            <div>
+                <h2>Data from SSE</h2>
+                {data.map((item, index) => (
+                    <p key={index}>{item}</p>
+                ))}
+            </div>
+        );
+    };
+    
+    export default SSEExample;
+    ```
 
-```js
-import {useEffect, useState} from "react";
-
-const SSEExample = () => {
-    const [data, setData] = useState([]);
-
-    useEffect(() => {
-        const eventSource = new EventSource("http://example.com/sse");
-
-        eventSource.onmessage = (event) => {
-            setData((prevData) => [...prevData, event.data]);
-        };
-
-        return () => {
-            eventSource.close();
-        };
-    }, []);
-
-    return (
-        <div>
-            <h2>Data from SSE</h2>
-            {data.map((item, index) => (
-                <p key={index}>{item}</p>
-            ))}
-        </div>
-    );
-};
-
-export default SSEExample;
-```
-
-3. **Long Polling:**
+3. Long Polling:
 
    - При использовании long polling клиент отправляет запрос на сервер, сервер не отвечает сразу, а задерживает ответ
      до появления новых данных.
    - Это более старый подход по сравнению с WebSocket и SSE, но все еще может быть полезен для некоторых сценариев.
 
-**Пример с использованием long polling:**
-
-```js
-import {useEffect, useState} from "react";
-import axios from "axios";
-
-const LongPollingExample = () => {
-    const [data, setData] = useState([]);
-
-    const pollData = async () => {
-        try {
-            const response = await axios.get("http://example.com/long-polling");
-            setData((prevData) => [...prevData, response.data]);
-            pollData(); // Запрашиваем данные снова после получения ответа
-        } catch (error) {
-            console.error(error);
-        }
+    ```js
+    import {useEffect, useState} from "react";
+    import axios from "axios";
+    
+    const LongPollingExample = () => {
+        const [data, setData] = useState([]);
+    
+        const pollData = async () => {
+            try {
+                const response = await axios.get("http://example.com/long-polling");
+                setData((prevData) => [...prevData, response.data]);
+                pollData(); // Запрашиваем данные снова после получения ответа
+            } catch (error) {
+                console.error(error);
+            }
+        };
+    
+        useEffect(() => {
+            pollData();
+        }, []);
+    
+        return (
+            <div>
+                <h2>Data from Long Polling</h2>
+                {data.map((item, index) => (
+                    <p key={index}>{item}</p>
+                ))}
+            </div>
+        );
     };
-
-    useEffect(() => {
-        pollData();
-    }, []);
-
-    return (
-        <div>
-            <h2>Data from Long Polling</h2>
-            {data.map((item, index) => (
-                <p key={index}>{item}</p>
-            ))}
-        </div>
-    );
-};
-
-export default LongPollingExample;
-```
+    
+    export default LongPollingExample;
+    ```
 
 ## 12. Архитектура проекта и ее отличие от структуры. Какие архитектуры использовал?
 
