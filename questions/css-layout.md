@@ -16,9 +16,9 @@
 
 Через абсолютное позиционирование: `position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);`
 
-Через Flexbox: родителю задаём display: `flex; justify-content: center; align-items: center; height: 100vh;`
-
 `Flexbox` — это модель расположения элементов в CSS, которая позволяет эффективно управлять пространством внутри контейнера и легко выравнивать элементы по горизонтали и вертикали.
+
+Через Flexbox: родителю задаём display: `flex; justify-content: center; align-items: center; height: 100vh;`
 
 ## 3. Разница между блочным и строчным элементом?
 
